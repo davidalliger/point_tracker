@@ -2,6 +2,8 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
 
+const { port, environment } = require('./config');
+const isProduction = environment === 'production';
 const routes = require('./routes');
 
 require('dotenv').config();
@@ -17,6 +19,23 @@ app.get('/', (req, res) => {
 
 });
 
-const { port } = require('./config');
+app.use((req, res, next) => {
+    const err = new Error('The requested resource could not be found.');
+    err.status = 404;
+    next(err);
+})
+
+app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    console.error(err);
+    res.json({
+        title: err.title || 'Server Error',
+        message: isProduction ? null : err.message,
+        errors:err.errors,
+        stack: isProduction ? null : err.stack
+    });
+});
 
 app.listen(port, () => console.log(`Listening on port ${port}...`));
+
+module.exports = app;
