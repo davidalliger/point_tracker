@@ -2,7 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
 
-const { port, environment } = require('./config');
+const { environment } = require('./config');
 const isProduction = environment === 'production';
 const routes = require('./routes');
 
@@ -35,7 +35,5 @@ app.use((err, req, res, next) => {
         stack: isProduction ? null : err.stack
     });
 });
-
-app.listen(port, () => console.log(`Listening on port ${port}...`));
 
 module.exports = app;
