@@ -1,6 +1,6 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
-const csrf = require('csurf');
+// const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const { environment } = require('./config');
 const isProduction = environment === 'production';
@@ -10,20 +10,27 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(cookieParser());
-const csrfProtection = csrf({ cookie: true });
+if (!isProduction) app.use(cors());
+
+app.use(express.json());
 
 app.use(routes);
 
-app.get('/', (req, res) => {
-
-});
-
 app.use((req, res, next) => {
     const err = new Error('The requested resource could not be found.');
+    err.title = 'Resource Not Found';
+    err.errors = ['The requested resource could not be found.']
     err.status = 404;
     next(err);
-})
+});
+
+app.use((err, req, res, next) => {
+    if (err instanceof ValidationError) {
+        err.errors = err.errors.map(e => e.message);
+        err.title = 'Validation Error'
+    }
+    next(err);
+});
 
 app.use((err, req, res, next) => {
     res.status(err.status || 500);

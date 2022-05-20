@@ -1,18 +1,18 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Payers', {
+    return queryInterface.createTable('Balances', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      payer: {
         type: Sequelize.STRING(100),
         allowNull: false
       },
-      balance: {
+      points: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
@@ -29,6 +29,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Payers');
+    return queryInterface.dropTable('Balances');
   }
 };
