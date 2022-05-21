@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   const Balance = sequelize.define('Balance', {
     payer: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     points: {
       type: DataTypes.INTEGER,
