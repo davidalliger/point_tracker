@@ -1,5 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
+const { Result } = require('express-validator');
 const { Balance, Transaction } = require('../../db/models');
 
 const router = express.Router();
@@ -29,7 +30,7 @@ router.post('/', asyncHandler(async(req, res) => {
 }));
 
 router.put('/', asyncHandler(async(req, res) => {
-    const { points } = req.body;
+    let { points } = req.body;
 
     const transactions = await Transaction.findAll({
         order: [['timestamp','ASC']]
@@ -57,6 +58,65 @@ router.put('/', asyncHandler(async(req, res) => {
             count++;
         }
     });
+    let currentRound = 1;
+    let currentCount = 1;
+    const response = [];
+    const numCount = Object.keys(rounds[currentRound]);
+    while (currentCount <= numCount) {
+        if (rounds[currentRound[currentCount]]) {
+            if (rounds[currentRound[currentCount]] >= points) {
+                const balance = await Balance.findOne({
+                    where: {
+                        payer: order[currentCount]
+                    }
+                });
+                await Balance.update({
+                    points: balance.points - points
+                },
+                {
+                    where: {
+                        id: balance.id
+                    }
+                });
+                await Transaction.create({
+                    balanceId: balance.id,
+                    points: -points,
+                    timestamp: Date.now()
+                });
+                response.push({
+                    payer: balance.payer,
+                    points: -points
+                });
+                return res.json(response);
+            } else {
+                points -= rounds[currentRound[currentCount]];
+                const balance = await Balance.findOne({
+                    where: {
+                        payer: order[currentCount]
+                    }
+                });
+                await Balance.update({
+                    points: balance.points - rounds[currentRound[currentCount]]
+                },
+                {
+                    where: {
+                        id: balance.id
+                    }
+                });
+                await Transaction.create({
+                    balanceId: balance.id,
+                    points: -rounds[currentRound[currentCount]],
+                    timestamp: Date.now()
+                });
+                response.push({
+                    payer: balance.payer,
+                    points: -rounds[currentRound[currentCount]]
+                });
+            }
+            count++;
+        }
+        round++
+    }
 
     return res.json(response);
 }));
