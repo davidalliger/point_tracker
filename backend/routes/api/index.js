@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const balancesRouter = require('./balances.js');
+const accountsRouter = require('./accounts.js');
 const transactionsRouter = require('./transactions');
 const path = require(path);
 
-router.use('/balances', balancesRouter);
+router.use('/accounts', accountsRouter);
 
 router.use('/transactions', transactionsRouter);
 

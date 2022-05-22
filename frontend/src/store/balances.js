@@ -26,7 +26,7 @@ const changeBalances = balances => {
 }
 
 export const getBalances = () => async(dispatch) => {
-    const response = await fetch('/api/balances');
+    const response = await fetch('/api/accounts');
     if (response.ok) {
         const balances = await response.json();
         dispatch(loadBalances(balances));
@@ -38,7 +38,7 @@ export const getBalances = () => async(dispatch) => {
 }
 
 export const createBalance = (payload) => async(dispatch) => {
-    const response = await fetch('/api/balances', {
+    const response = await fetch('/api/accounts', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -56,7 +56,7 @@ export const createBalance = (payload) => async(dispatch) => {
 }
 
 export const updateBalances = () => async(dispatch) => {
-    const response = await fetch('/api/balances', {
+    const response = await fetch('/api/accounts', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ export const updateBalances = () => async(dispatch) => {
     });
     if (response.ok) {
         const balances = await response.json();
-        dispatch(loadBalances(balances));
+        dispatch(changeBalances(balances));
         return balances;
     } else {
         const data = await handleResponse(response);
@@ -74,12 +74,16 @@ export const updateBalances = () => async(dispatch) => {
 }
 
 const balancesReducer = (state={}, action) => {
-    let newState = {...state};
+    let newState = { ...state };
     switch(action.type) {
         case LOAD:
-            //TODO
+            action.balances.forEach(balance => {
+                newState[balance.payer] = balance;
+            });
+            return newState;
         case ADD:
-            //TODO
+            newState[action.balance.payer] = action.balance;
+            return newState;
         case CHANGE:
             //TODO
         default:

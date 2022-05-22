@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Balance = sequelize.define('Balance', {
+  const Account = sequelize.define('Account', {
     payer: {
       type: DataTypes.STRING(100),
       allowNull: false,
@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {});
-  Balance.associate = function(models) {
+  Account.associate = function(models) {
     // associations can be defined here
-    Balance.hasMany(models.Transaction, {
-      foreignKey: 'balanceId'
+    Account.hasMany(models.Transaction, {
+      foreignKey: 'accountId'
     });
   };
-  return Balance;
+  return Account;
 };

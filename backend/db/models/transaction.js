@@ -1,12 +1,16 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Transaction = sequelize.define('Transaction', {
-    balanceId: {
+    accountId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: 'Balances' }
+      references: { model: 'Accounts' }
     },
     points: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    remaining: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
@@ -17,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Transaction.associate = function(models) {
     // associations can be defined here
-    Transaction.belongsTo(models.Balance, {
-      foreignKey: 'balanceId'
+    Transaction.belongsTo(models.Account, {
+      foreignKey: 'accountId'
     });
   };
   return Transaction;

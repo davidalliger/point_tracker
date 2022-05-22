@@ -8,11 +8,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      balanceId: {
+      accountId: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
       points: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      remaining: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
