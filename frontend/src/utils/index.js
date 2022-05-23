@@ -7,6 +7,6 @@ export const handleResponse = async(response) => {
             return data;
         }
     } else {
-        return ['An error has occurred. Please try again.'];
+        return { 'errors': ['An error has occurred. Please try again.'] };
     }
 }

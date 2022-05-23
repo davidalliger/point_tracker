@@ -21,7 +21,7 @@ const Home = () => {
                 </Link>
                 <Link to='/balances'>
                     <button>
-                        Balances
+                        View Balances
                     </button>
                 </Link>
             </div>

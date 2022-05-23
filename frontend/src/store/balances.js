@@ -1,7 +1,7 @@
 import { handleResponse } from "../utils";
 
 const LOAD = 'balances/LOAD';
-const ADD = 'balances/ADD';
+// const ADD = 'balances/ADD';
 const CHANGE = 'balances/CHANGE'
 
 const loadBalances = payload => {
@@ -11,12 +11,12 @@ const loadBalances = payload => {
     };
 };
 
-const addBalance = balance => {
-    return {
-        type: ADD,
-        balance
-    }
-}
+// const addBalance = balance => {
+//     return {
+//         type: ADD,
+//         balance
+//     }
+// }
 
 const changeBalances = balances => {
     return {
@@ -37,23 +37,23 @@ export const getBalances = () => async(dispatch) => {
     }
 }
 
-export const createBalance = (payload) => async(dispatch) => {
-    const response = await fetch('/api/accounts', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-    });
-    if (response.ok) {
-        const balance = await response.json();
-        dispatch(addBalance(balance));
-        return balance;
-    } else {
-        const data = await handleResponse(response);
-        return data;
-    }
-}
+// export const createBalance = (payload) => async(dispatch) => {
+//     const response = await fetch('/api/accounts', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(payload)
+//     });
+//     if (response.ok) {
+//         const balance = await response.json();
+//         dispatch(addBalance(balance));
+//         return balance;
+//     } else {
+//         const data = await handleResponse(response);
+//         return data;
+//     }
+// }
 
 export const updateBalances = () => async(dispatch) => {
     const response = await fetch('/api/accounts', {
@@ -83,10 +83,10 @@ const balancesReducer = (state={}, action) => {
                 newState[totalPoints] += balance.points;
             });
             return newState;
-        case ADD:
-            newState[action.balance.payer] = action.balance;
-            newState[totalPoints] += action.balance.points;
-            return newState;
+        // case ADD:
+        //     newState[action.balance.payer] = action.balance;
+        //     newState[totalPoints] += action.balance.points;
+        //     return newState;
         case CHANGE:
             action.balances.forEach(balance => {
                 newState[balance.payer].points += balance.points;

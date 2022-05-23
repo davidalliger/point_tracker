@@ -1,20 +1,44 @@
 import { useState } from "react";
+import { createTransaction } from "../../../store/transactions";
+import { useDispatch } from "react-redux";
+import { Redirect } from 'react-router-dom';
 
 const CreateTransaction = () => {
     const [payer, setPayer] = useState('');
     const [points, setPoints] = useState(null);
-    const [date, setDate] = useState(null);
-    const [time, setTime] = useState(null);
+    const [timestamp, setTimestamp] = useState(null);
     const [errors, setErrors] = useState([]);
+    const dispatch = useDispatch();
 
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
+        const transaction = {
+            payer,
+            points,
+            timestamp
+        }
+        const data = await dispatch(createTransaction(transaction));
+        if (data.errors) {
+            setErrors(data.errors);
+        } else {
+            return <Redirect to='/transactions' />
+        }
     }
 
     return (
         <div>
             <h1>Add Transaction</h1>
+            {showErrors && (
+                <div>
+                    <ul>
+                        {errors.map((error, index) => {
+                            <li key={index}>
+                                {error}
+                            </li>
+                        })}
+                    </ul>
+                </div>
+            )}
             <form
                 onSubmit={handleSubmit}
             >
@@ -35,20 +59,12 @@ const CreateTransaction = () => {
                     value={points}
                 />
                 <label>
-                    Date:
+                    Date and Time:
                 </label>
                 <input
-                    type='date'
-                    onChange={e => setDate(e.target.value)}
-                    value={date}
-                />
-                <label>
-                    Time:
-                </label>
-                <input
-                    type='time'
-                    onChange={e => setTime(e.target.value)}
-                    value={time}
+                    type='datetime-local'
+                    onChange={e => setTimestamp(e.target.value)}
+                    value={timestamp}
                 />
                 <button>
                     Submit
@@ -57,3 +73,5 @@ const CreateTransaction = () => {
         </div>
     )
 }
+
+export default CreateTransaction;
