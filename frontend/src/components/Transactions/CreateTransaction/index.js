@@ -23,25 +23,36 @@ const CreateTransaction = () => {
                 </label>
                 <input
                     type='text'
+                    onChange={e => setPayer(e.target.value)}
+                    value={payer}
                 />
                 <label>
                     Points:
                 </label>
                 <input
                     type='number'
+                    onChange={e => setPoints(e.target.value)}
+                    value={points}
                 />
                 <label>
                     Date:
                 </label>
                 <input
                     type='date'
+                    onChange={e => setDate(e.target.value)}
+                    value={date}
                 />
                 <label>
                     Time:
                 </label>
                 <input
                     type='time'
+                    onChange={e => setTime(e.target.value)}
+                    value={time}
                 />
+                <button>
+                    Submit
+                </button>
             </form>
         </div>
     )

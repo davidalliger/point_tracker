@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
 
 const ReadTransactions = () => {
-    const transactions = useSelector(state => state.transactions);
-    console.log(transactions);
+    const transactionState = useSelector(state => state.transactions);
+    const transactions = Object.values(transactionState);
     return (
         <div>
             <div>
@@ -12,7 +12,11 @@ const ReadTransactions = () => {
                     </div>
                 ))}
             </div>
-            <button>Add Transaction</button>
+            <Link to='/transactions/new'>
+                <button>
+                    Add Transaction
+                </button>
+            </Link>
         </div>
     )
 }

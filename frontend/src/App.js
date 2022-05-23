@@ -41,7 +41,10 @@ function App() {
             <Route path='/balances/new'>
               <CreateBalance />
             </Route>
-            <Route path='/balances/new'>
+            <Route path='/spend'>
+              <Spend />
+            </Route>
+            <Route path='/balances/updated'>
               <UpdatedBalances />
             </Route>
             <Route path='/not-found'>
