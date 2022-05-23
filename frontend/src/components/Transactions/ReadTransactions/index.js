@@ -1,20 +1,26 @@
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const ReadTransactions = () => {
-    const transactionState = useSelector(state => state.transactions);
-    const transactions = Object.values(transactionState);
+    const transactions = useSelector(state => state.transactions.transactions);
+
+    console.log('transactions ', transactions);
+
     return (
         <div>
             <div>
-                {transactions.map((transaction, index) => (
-                    <div key={index}>
-                        {transaction}
-                    </div>
-                ))}
+                <pre>
+                    {JSON.stringify(transactions, null, 2)}
+                </pre>
             </div>
             <Link to='/transactions/new'>
                 <button>
                     Add Transaction
+                </button>
+            </Link>
+            <Link to='/'>
+                <button>
+                    Home
                 </button>
             </Link>
         </div>

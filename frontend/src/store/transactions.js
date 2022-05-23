@@ -50,12 +50,10 @@ const transactionsReducer = (state={}, action) => {
     let newState = {...state};
     switch(action.type) {
         case LOAD:
-            action.transactions.forEach(transaction => {
-                newState[transaction.id] = transaction;
-            });
+            newState['transactions'] = action.transactions;
             return newState;
         case ADD:
-            newState[action.transaction.id] = action.transaction;
+            newState['transactions'].push(action.transaction);
             return newState;
         default:
             return newState;

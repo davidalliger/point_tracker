@@ -1,7 +1,7 @@
 import { handleResponse } from "../utils";
 
 const LOAD = 'balances/LOAD';
-// const ADD = 'balances/ADD';
+const TOTAL = 'balances/TOTAL';
 const CHANGE = 'balances/CHANGE'
 
 const loadBalances = payload => {
@@ -11,12 +11,12 @@ const loadBalances = payload => {
     };
 };
 
-// const addBalance = balance => {
-//     return {
-//         type: ADD,
-//         balance
-//     }
-// }
+const loadTotal = payload => {
+    return {
+        type: TOTAL,
+        payload
+    }
+}
 
 const changeBalances = balances => {
     return {
@@ -30,6 +30,18 @@ export const getBalances = () => async(dispatch) => {
     if (response.ok) {
         const payload = await response.json();
         dispatch(loadBalances(payload));
+        return payload;
+    } else {
+        const data = await handleResponse(response);
+        return data;
+    }
+}
+
+export const getTotal = () => async(dispatch) => {
+    const response = await fetch('/api/accounts/total');
+    if (response.ok) {
+        const payload = await response.json();
+        dispatch(loadTotal(payload));
         return payload;
     } else {
         const data = await handleResponse(response);
@@ -55,7 +67,7 @@ export const getBalances = () => async(dispatch) => {
 //     }
 // }
 
-export const updateBalances = () => async(dispatch) => {
+export const updateBalances = (payload) => async(dispatch) => {
     const response = await fetch('/api/accounts', {
         method: 'PUT',
         headers: {
@@ -77,20 +89,23 @@ const balancesReducer = (state={}, action) => {
     let newState = { ...state };
     switch(action.type) {
         case LOAD:
-            if (!newState[totalPoints]) newState[totalPoints] = 0;
-            action.payload.balances.forEach(balance => {
-                newState[balance.payer] = balance;
-                newState[totalPoints] += balance.points;
-            });
+            // if (!newState['totalPoints']) newState['totalPoints'] = 0;
+            newState['balances'] = action.payload;
+            // Object.keys(action.payload).forEach(payer => {
+            //     newState['totalPoints'] += action.payload[payer];
+            // });
+            // action.payload.accounts.forEach(account => {
+            //     newState.balances[account.payer] = account.points;
+            //     newState['totalPoints'] += account.points;
+            // });
             return newState;
-        // case ADD:
-        //     newState[action.balance.payer] = action.balance;
-        //     newState[totalPoints] += action.balance.points;
-        //     return newState;
+        case TOTAL:
+            newState['totalPoints'] = action.payload;
+            return newState;
         case CHANGE:
-            action.balances.forEach(balance => {
-                newState[balance.payer].points += balance.points;
-                newState[totalPoints] += balance.points;
+            action.balances.forEach(account => {
+                newState.balances[account.payer] += account.points;
+                newState['totalPoints'] += account.points;
             });
             return newState;
         default:

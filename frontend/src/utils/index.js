@@ -1,6 +1,8 @@
+import { Redirect } from 'react-router-dom';
+
 export const handleResponse = async(response) => {
     if (response.status === 404) {
-        //TODO
+        return <Redirect to='/not-found' />;
     } else if (response < 500) {
         const data = await response.json();
         if (data.errors) {

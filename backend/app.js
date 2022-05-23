@@ -1,6 +1,7 @@
 const express = require('express');
 // const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const { ValidationError } = require('sequelize');
 
 const { environment } = require('./config');
 const isProduction = environment === 'production';

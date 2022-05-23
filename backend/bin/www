@@ -2,7 +2,7 @@
 
 const app = require('../app');
 const { port } = require('../config');
-const db = require('..db/models');
+const db = require('../db/models');
 
 db.sequelize.authenticate()
     .then(() => {

@@ -1,12 +1,12 @@
-import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const UpdatedBalances = (updates) => {
     return (
         <div>
             <div>
-                {balances.map((balance, index) => (
+                {updates.map((update, index) => (
                     <div key={index}>
-                        {balance}
+                        {update}
                     </div>
                 ))}
             </div>

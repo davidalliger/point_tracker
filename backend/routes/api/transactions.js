@@ -9,7 +9,7 @@ router.get('/', asyncHandler(async(req, res) => {
         include: [Account]
     }).map(transaction => {
         return {
-            payer: Account.payer,
+            payer: transaction.Account.payer,
             points: transaction.points,
             timestamp: transaction.timestamp
         }
@@ -24,7 +24,7 @@ router.post('/', asyncHandler(async(req, res) => {
         timestamp
     } = req.body;
 
-    const account = await Account.findOne({
+    let account = await Account.findOne({
         where: {
             payer
         }
@@ -32,20 +32,29 @@ router.post('/', asyncHandler(async(req, res) => {
 
     remaining = points > 0 ? points : 0;
 
-    const transaction = await Transaction.create({
+
+
+    if (account) {
+        await Account.update({
+            points: Number(account.points) + Number(points)
+        },
+        {
+            where: {
+                id: account.id
+            }
+        });
+    } else {
+        account = await Account.create({
+            payer,
+            points: Number(points)
+        });
+    }
+
+    await Transaction.create({
         accountId: account.id,
         points,
         remaining,
         timestamp
-    });
-
-    await Account.update({
-        points: account.points + points
-    },
-    {
-        where: {
-            id: account.id
-        }
     });
 
     const response = {
@@ -56,3 +65,5 @@ router.post('/', asyncHandler(async(req, res) => {
 
     return res.json(response);
 }));
+
+module.exports = router;

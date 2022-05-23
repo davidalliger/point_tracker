@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateBalances } from "../../store/balances";
 import { Redirect } from 'react-router-dom';
 
 const SpendPoints = () => {
     const totalPoints = useSelector(state => state.balances.totalPoints);
-    const [points, setPoints] = useState(null);
+    const [points, setPoints] = useState('');
     const [errors, setErrors] = useState([]);
     const [showErrors, setShowErrors] = useState(false);
     const dispatch = useDispatch();
@@ -33,11 +33,11 @@ const SpendPoints = () => {
             {showErrors && (
                 <div>
                     <ul>
-                        {errors.map((error, index) => {
+                        {errors.map((error, index) => (
                             <li key={index}>
                                 {error}
                             </li>
-                        })}
+                        ))}
                     </ul>
                 </div>
             )}

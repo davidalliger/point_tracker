@@ -5,17 +5,25 @@ const { Account, Transaction } = require('../../db/models');
 const router = express.Router();
 
 router.get('/', asyncHandler(async(req, res) => {
-    const accounts = await Account.findAll().map(account => {
-        return {
-            payer: account.payer,
-            points: account.points
-        }
+    const accounts = {};
+    const accountsArray = await Account.findAll()
+    accountsArray.forEach(account => {
+        accounts[account.payer] = account.points;
     });
+    // const totalPoints = accounts.reduce((sum, account) => {
+    //     sum += account.points;
+    //     return sum;
+    // }, 0);
+    return res.json(accounts);
+}));
+
+router.get('/total', asyncHandler(async(req, res) => {
+    const accounts = await Account.findAll()
     const totalPoints = accounts.reduce((sum, account) => {
         sum += account.points;
         return sum;
     }, 0);
-    return res.json({ accounts, totalPoints });
+    return res.json(totalPoints);
 }));
 
 router.post('/', asyncHandler(async(req, res) => {
@@ -47,7 +55,7 @@ router.put('/', asyncHandler(async(req, res) => {
 
     const response = [];
 
-    transactions.array.forEach(transaction => {
+    transactions.array.forEach(async(transaction) => {
         const account = await Account.findOne({
             where: {
                 id: transaction.accountId
@@ -110,3 +118,5 @@ router.put('/', asyncHandler(async(req, res) => {
 
     return res.json(response);
 }));
+
+module.exports = router;

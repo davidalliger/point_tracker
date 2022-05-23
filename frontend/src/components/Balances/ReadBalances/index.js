@@ -1,22 +1,21 @@
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const ReadBalances = () => {
-    const balanceState = useSelector(state => state.balances);
-    const balances = Object.values(balanceState);
+    const balanceState = useSelector(state => state.balances.balances);
+    // const balances = Object.values(balanceState);
     return (
         <div>
             <div>
-                {balances.map((balance, index) => (
-                    <div key={index}>
-                        {balance}
-                    </div>
-                ))}
+                <pre>
+                    {JSON.stringify(balanceState, null, 4)}
+                </pre>
             </div>
-            {/* <Link to='/balances/new'>
+            <Link to='/'>
                 <button>
-                    Add Balance
+                    Home
                 </button>
-            </Link> */}
+            </Link>
         </div>
     )
 }

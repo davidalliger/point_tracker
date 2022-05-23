@@ -4,11 +4,9 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import rootReducer from './store';
+import configureStore from './store';
 
-const store = configureStore({
-  reducer: rootReducer
-});
+const store = configureStore();
 
 function Root() {
   return (

@@ -4,13 +4,19 @@ const Navigation = () => {
     return (
         <div>
             <NavLink to='/'>
-                Home
+                <button>
+                    Home
+                </button>
             </NavLink>
             <NavLink to='/transactions'>
-                Transactions
+                <button>
+                    Transactions
+                </button>
             </NavLink>
             <NavLink to='/balances'>
-                Balances
+                <button>
+                    Balances
+                </button>
             </NavLink>
         </div>
     )
