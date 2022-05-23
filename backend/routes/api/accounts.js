@@ -11,7 +11,11 @@ router.get('/', asyncHandler(async(req, res) => {
             points: account.points
         }
     });
-    return res.json(accounts);
+    const totalPoints = accounts.reduce((sum, account) => {
+        sum += account.points;
+        return sum;
+    }, 0);
+    return res.json({ accounts, totalPoints });
 }));
 
 router.post('/', asyncHandler(async(req, res) => {

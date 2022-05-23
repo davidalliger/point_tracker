@@ -4,10 +4,10 @@ const LOAD = 'balances/LOAD';
 const ADD = 'balances/ADD';
 const CHANGE = 'balances/CHANGE'
 
-const loadBalances = balances => {
+const loadBalances = payload => {
     return {
         type: LOAD,
-        balances
+        payload
     };
 };
 
@@ -28,9 +28,9 @@ const changeBalances = balances => {
 export const getBalances = () => async(dispatch) => {
     const response = await fetch('/api/accounts');
     if (response.ok) {
-        const balances = await response.json();
-        dispatch(loadBalances(balances));
-        return balances;
+        const payload = await response.json();
+        dispatch(loadBalances(payload));
+        return payload;
     } else {
         const data = await handleResponse(response);
         return data;
@@ -77,16 +77,20 @@ const balancesReducer = (state={}, action) => {
     let newState = { ...state };
     switch(action.type) {
         case LOAD:
-            action.balances.forEach(balance => {
+            if (!newState[totalPoints]) newState[totalPoints] = 0;
+            action.payload.balances.forEach(balance => {
                 newState[balance.payer] = balance;
+                newState[totalPoints] += balance.points;
             });
             return newState;
         case ADD:
             newState[action.balance.payer] = action.balance;
+            newState[totalPoints] += action.balance.points;
             return newState;
         case CHANGE:
             action.balances.forEach(balance => {
                 newState[balance.payer].points += balance.points;
+                newState[totalPoints] += balance.points;
             });
             return newState;
         default:
