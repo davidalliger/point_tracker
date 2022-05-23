@@ -85,7 +85,10 @@ const balancesReducer = (state={}, action) => {
             newState[action.balance.payer] = action.balance;
             return newState;
         case CHANGE:
-            //TODO
+            action.balances.forEach(balance => {
+                newState[balance.payer].points += balance.points;
+            });
+            return newState;
         default:
             return newState;
     }

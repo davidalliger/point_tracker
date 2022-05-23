@@ -50,9 +50,13 @@ const transactionsReducer = (state={}, action) => {
     let newState = {...state};
     switch(action.type) {
         case LOAD:
-            //TODO
+            action.transactions.forEach(transaction => {
+                newState[transaction.id] = transaction;
+            });
+            return newState;
         case ADD:
-            //TODO
+            newState[action.transaction.id] = action.transaction;
+            return newState;
         default:
             return newState;
     }
