@@ -7,8 +7,9 @@ const ReadTransactions = () => {
     console.log('transactions ', transactions);
 
     return (
-        <div>
-            <div>
+        <div className='page'>
+            <h2>Transactions</h2>
+            <div className='content'>
                 <pre>
                     {JSON.stringify(transactions, null, 2)}
                 </pre>

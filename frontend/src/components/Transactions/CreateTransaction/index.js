@@ -36,8 +36,8 @@ const CreateTransaction = () => {
     }, [errors]);
 
     return (
-        <div>
-            <h1>Add Transaction</h1>
+        <div className='page'>
+            <h2>Add Transaction</h2>
             {showErrors && (
                 <div>
                     <ul>
@@ -49,37 +49,56 @@ const CreateTransaction = () => {
                     </ul>
                 </div>
             )}
-            <form
-                onSubmit={handleSubmit}
-            >
-                <label>
-                    Payer:
-                </label>
-                <input
-                    type='text'
-                    onChange={e => setPayer(e.target.value)}
-                    value={payer}
-                />
-                <label>
-                    Points:
-                </label>
-                <input
-                    type='number'
-                    onChange={e => setPoints(e.target.value)}
-                    value={points}
-                />
-                <label>
-                    Date and Time:
-                </label>
-                <input
-                    type='datetime-local'
-                    onChange={e => setTimestamp(e.target.value)}
-                    value={timestamp}
-                />
-                <button>
-                    Submit
-                </button>
-            </form>
+                <div className="form-content">
+                    <form className='form'
+                        onSubmit={handleSubmit}
+                    >
+                        <div className="label">
+                            <label>
+                                Payer:
+                            </label>
+                        </div>
+                        <div>
+                            <input
+                                className="input"
+                                type='text'
+                                onChange={e => setPayer(e.target.value)}
+                                value={payer}
+                            />
+                        </div>
+                        <div className="label">
+                            <label>
+                                Points:
+                            </label>
+                        </div>
+                        <div>
+                            <input
+                                className="input"
+                                type='number'
+                                onChange={e => setPoints(e.target.value)}
+                                value={points}
+                            />
+                        </div>
+                        <div className="label">
+                            <label>
+                                Date and Time:
+                            </label>
+                        </div>
+                        <div>
+                            <input
+                                className="input"
+                                type='datetime-local'
+                                onChange={e => setTimestamp(e.target.value)}
+                                value={timestamp}
+                            />
+                        </div>
+                        <div className='form-button'>
+                            <button>
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
             <Link to='/'>
                 <button>
                     Home

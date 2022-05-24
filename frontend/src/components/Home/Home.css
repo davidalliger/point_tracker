@@ -1,0 +1,28 @@
+#home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+#button-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#button-div button {
+    margin: 5px;
+    width: 110px;
+    padding: 8px;
+    background-color:darkslateblue;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    cursor: pointer;
+}

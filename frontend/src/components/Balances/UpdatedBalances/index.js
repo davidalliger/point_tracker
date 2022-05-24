@@ -12,6 +12,7 @@ const UpdatedBalances = () => {
 
     return (
         <div>
+            <h2>Points Spent</h2>
             <div>
                 <pre>
                     {JSON.stringify(updates, null, 4)}

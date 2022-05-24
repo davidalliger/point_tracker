@@ -5,8 +5,9 @@ const ReadBalances = () => {
     const balanceState = useSelector(state => state.balances.balances);
     // const balances = Object.values(balanceState);
     return (
-        <div>
-            <div>
+        <div className='page'>
+            <h2>Balances</h2>
+            <div className='content'>
                 <pre>
                     {JSON.stringify(balanceState, null, 4)}
                 </pre>

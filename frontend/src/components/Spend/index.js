@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateBalances } from "../../store/balances";
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 const SpendPoints = () => {
     const totalPoints = useSelector(state => state.balances.totalPoints);
@@ -44,9 +44,8 @@ const SpendPoints = () => {
     }
 
     return (
-        <div>
-            <h1>Spend Points</h1>
-            <p>Total Points: {totalPoints}</p>
+        <div className='page'>
+            <h2>Spend Points</h2>
             {showErrors && (
                 <div>
                     <ul>
@@ -58,21 +57,36 @@ const SpendPoints = () => {
                     </ul>
                 </div>
             )}
-            <form
-                onSubmit={handleSubmit}
-            >
-                <label>
-                    Amount:
-                </label>
-                <input
-                    type='number'
-                    onChange={e => setPoints(e.target.value)}
-                    value={points}
-                />
+            <div className='form-content'>
+                <div className='info'>
+                    <p><span className='bold'>Total Points:</span> {totalPoints}</p>
+                </div>
+                <form
+                    onSubmit={handleSubmit}
+                >
+                    <div className='label'>
+                        <label>
+                            Amount:
+                        </label>
+                    </div>
+                    <input
+                        className='input'
+                        type='number'
+                        onChange={e => setPoints(e.target.value)}
+                        value={points}
+                    />
+                    <div className='form-button'>
+                        <button>
+                            Spend
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <Link to='/'>
                 <button>
-                    Submit
+                    Home
                 </button>
-            </form>
+            </Link>
         </div>
     )
 }

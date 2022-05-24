@@ -1,0 +1,27 @@
+#navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-button {
+    margin: 10px;
+    width: 110px;
+    padding: 8px;
+    background-color:darkslateblue;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+h1 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.active-link button {
+    background-color:midnightblue;
+}

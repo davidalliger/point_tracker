@@ -48,9 +48,6 @@ function App() {
             <Route path='/balances'>
               <ReadBalances />
             </Route>
-            {/* <Route path='/balances/new'>
-              <CreateBalance />
-            </Route> */}
             <Route path='/spend'>
               <SpendPoints />
             </Route>
