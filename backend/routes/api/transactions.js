@@ -30,10 +30,6 @@ router.post('/', asyncHandler(async(req, res) => {
         }
     });
 
-    remaining = points > 0 ? points : 0;
-
-
-
     if (account) {
         await Account.update({
             points: Number(account.points) + Number(points)
@@ -53,7 +49,6 @@ router.post('/', asyncHandler(async(req, res) => {
     await Transaction.create({
         accountId: account.id,
         points,
-        remaining,
         timestamp
     });
 

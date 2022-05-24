@@ -10,10 +10,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    remaining: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     timestamp: {
       type: DataTypes.DATE,
       allowNull: false
