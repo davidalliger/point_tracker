@@ -68,7 +68,16 @@ router.put('/', asyncHandler(async(req, res) => {
         console.log('current transaction ', transactions[count - 1]);
         if (transactions[count - 1].points < 0) {
             if (order[transactions[count - 1].Account.payer]) {
-                    rounds[round][order[transactions[count - 1].Account.payer]] = Number(rounds[round][order[transactions[count - 1].Account.payer]]) + Number(transactions[count - 1].points);
+                let deductPoints = transactions[count - 1].points;
+                    for (let i = 1; i <= round; i++) {
+                        if (Math.abs(deductPoints) >= Math.abs(rounds[i][order[transactions[count - 1].Account.payer]])) {
+                            deductPoints += Number(rounds[i][order[transactions[count - 1].Account.payer]]);
+                            rounds[i][order[transactions[count - 1].Account.payer]] = 0;
+                        } else {
+                            rounds[i][order[transactions[count - 1].Account.payer]] = Number(rounds[round][order[transactions[count - 1].Account.payer]]) + Number(deductPoints);
+                            deductPoints = 0;
+                        }
+                    }
             }
         } else {
             if (order[transactions[count - 1].Account.payer]) {
