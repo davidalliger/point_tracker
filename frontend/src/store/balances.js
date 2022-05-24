@@ -75,8 +75,10 @@ export const updateBalances = (payload) => async(dispatch) => {
         },
         body: JSON.stringify(payload)
     });
+    console.log('In thunk ', response);
     if (response.ok) {
         const balances = await response.json();
+        console.log('In thunk ', balances);
         dispatch(changeBalances(balances));
         return balances;
     } else {

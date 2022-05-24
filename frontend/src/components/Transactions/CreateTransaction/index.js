@@ -17,7 +17,7 @@ const CreateTransaction = () => {
         e.preventDefault();
         const transaction = {
             payer,
-            points,
+            points: Number(points),
             timestamp
         }
         const data = await dispatch(createTransaction(transaction));

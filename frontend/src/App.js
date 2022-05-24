@@ -42,6 +42,9 @@ function App() {
             <Route path='/transactions'>
               <ReadTransactions />
             </Route>
+            <Route path='/balances/updated'>
+              <UpdatedBalances />
+            </Route>
             <Route path='/balances'>
               <ReadBalances />
             </Route>
@@ -50,9 +53,6 @@ function App() {
             </Route> */}
             <Route path='/spend'>
               <SpendPoints />
-            </Route>
-            <Route path='/balances/updated'>
-              <UpdatedBalances />
             </Route>
             <Route path='/not-found'>
               <PageNotFound />

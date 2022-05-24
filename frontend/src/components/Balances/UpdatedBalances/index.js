@@ -1,14 +1,21 @@
-import { Link } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 
-const UpdatedBalances = (updates) => {
+const UpdatedBalances = () => {
+    const location = useLocation();
+    let updates;
+    if (location.state && location.state.updates) {
+        updates = location.state.updates;
+    }
+    if (!updates) {
+        return <Redirect to='/' />
+    }
+
     return (
         <div>
             <div>
-                {updates.map((update, index) => (
-                    <div key={index}>
-                        {update}
-                    </div>
-                ))}
+                <pre>
+                    {JSON.stringify(updates, null, 4)}
+                </pre>
             </div>
             <Link to='/spend'>
                 <button>

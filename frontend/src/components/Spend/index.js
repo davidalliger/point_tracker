@@ -8,15 +8,20 @@ const SpendPoints = () => {
     const [points, setPoints] = useState('');
     const [errors, setErrors] = useState([]);
     const [showErrors, setShowErrors] = useState(false);
+    const [updated, setUpdated] = useState(false);
+    const [updates, setUpdates] = useState('');
     const dispatch = useDispatch();
+
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        const updates = await dispatch(updateBalances({points}));
-        if (updates.errors) {
-            setErrors(updates.errors);
+        console.log(points);
+        const data = await dispatch(updateBalances({points}));
+        if (data.errors) {
+            setErrors(data.errors);
         } else {
-            return <Redirect to='/balances/updated' updates={updates} />
+            console.log(data);
+            setUpdates(data);
         }
     }
 
@@ -25,6 +30,18 @@ const SpendPoints = () => {
             setShowErrors(true);
         }
     }, [errors]);
+
+    useEffect(() => {
+        if (updates) {
+            setUpdated(true)
+        }
+    }, [updates])
+
+
+    if (updated) {
+        console.log(updates);
+        return <Redirect to={{pathname: '/balances/updated', state:{updates: updates}}} />
+    }
 
     return (
         <div>
