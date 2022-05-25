@@ -1,6 +1,48 @@
 # Point Tracker
 ## Instructions
-TODO
+### Production
+To run this application in production, you can visit the deployed version [here](https://point-tracker-app.herokuapp.com).
+To add a transaction, click on the 'Transactions' button, scroll to the bottom of the screen, and click 'Add Transaction.'
+### Development
+To run this app on your local machine, please follow the instructions below:
+1. Clone this repository by running the following command:
+```
+git clone git@github.com:davidalliger/scarebnb.git
+```
+2. Navigate into the backend directory and install dependencies.
+```
+npm install
+```
+3. Navigate into the frontend directory and install dependencies.
+```
+npm install
+```
+4. In psql, create a POSTGRESQL user with PASSWORD and CREATEDB privileges.
+```
+CREATE USER <username> WITH PASSWORD '<password>'
+```
+5. Using the .envexample file in the backend folder as a guide, create a .env file in the same folder.
+6. For the DB_USERNAME and DB_PASSWORD fields, use the username and password that were just created in psql.
+7. Enter the name of your database into the DB_DATABASE field and give DB_HOST a value of localhost. Assign a PORT, for instance 5000.
+8. Inside the package.json file in your frontend folder, find the following line and replace '5000' with the port you specified in your .env file, if need be:
+```
+"proxy": "http://localhost:5000"
+```
+9. Create the database using sequelize by running the following command in your backend directory:
+```
+npx dotenv sequelize db:create
+```
+10. Next run all migrations and seed the database with seed data using the provided seeder files.
+```
+npx dotenv sequelize db:migrate
+npx dotenv sequelize db:seed:all
+```
+11. Run npm start in the backend directory to start the server.
+12. Run npm start in your frontend directory.
+13. Visit the following address in your browser to view the app:
+```
+http://localhost:3000
+```
 ## Description
 This is a point tracker application meant to simulate a loyalty rewards application. Users can add transactions into the system to update payer balances. They can also spend points from their pool of total points. For the purposes of this project, I decided to display the responses from the server as JSON on the frontend, so the user can clearly see what is being sent from the backend.
 ## Technologies
