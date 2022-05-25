@@ -139,8 +139,15 @@ router.put('/', asyncHandler(async(req, res) => {
                         points: -rounds[currentRound][currentCount]
                     });
                 }
+                currentCount++;
+            } else {
+                if (currentRound + 1 <= roundCount.length) {
+                    currentRound++;
+                } else {
+                    currentRound = 1;
+                    currentCount++;
+                }
             }
-            currentCount++;
         }
         currentRound++
     }
