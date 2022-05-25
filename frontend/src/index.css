@@ -19,6 +19,8 @@ body,
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 #root {
@@ -36,7 +38,8 @@ h2 {
   padding: 30px;
   border-radius: 10px;
   margin: 20px;
-  width: 800px;
+  width: 50%;
+  box-sizing: border-box;
 }
 
 .form-content {
@@ -91,4 +94,24 @@ button {
   flex-direction: column;
   align-items: center;
   margin: 20px;
+}
+
+.errors {
+  background-color: lightpink;
+  color: red;
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+.errors ul {
+  margin: 0;
+  padding: 0 0 0 12px;
+}
+
+#app {
+  width: 100%;
+  box-sizing: border-box;
 }

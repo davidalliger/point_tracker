@@ -48,7 +48,7 @@ const SpendPoints = () => {
         <div className='page'>
             <h2>Spend Points</h2>
             {showErrors && (
-                <div>
+                <div className='errors'>
                     <ul>
                         {errors.map((error, index) => (
                             <li key={index}>

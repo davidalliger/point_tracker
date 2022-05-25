@@ -38,7 +38,7 @@ const CreateTransaction = () => {
         <div className='page'>
             <h2>Add Transaction</h2>
             {showErrors && (
-                <div>
+                <div className='errors'>
                     <ul>
                         {errors.map((error, index) => (
                             <li key={index}>

@@ -2,6 +2,8 @@ const e = require('express');
 const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { Account, Transaction } = require('../../db/models');
+const { handleValidationErrors } = require('../../utils/validation.js');
+const { check } = require('express-validator');
 
 const router = express.Router();
 
@@ -18,17 +20,52 @@ router.get('/', asyncHandler(async(req, res) => {
     return res.json(accounts);
 }));
 
-router.get('/total', asyncHandler(async(req, res) => {
-    const accounts = await Account.findAll()
-    let totalPoints = accounts.reduce((sum, account) => {
+const calculateTotal = async() => {
+    const accounts = await Account.findAll();
+    const total = accounts.reduce((sum, account) => {
         sum += account.points;
         return sum;
     }, 0);
+    return total;
+}
+
+router.get('/total', asyncHandler(async(req, res) => {
+    let totalPoints = await calculateTotal();
     totalPoints = totalPoints > 0 ? totalPoints : 0;
     return res.json(totalPoints);
 }));
 
-router.put('/', asyncHandler(async(req, res) => {
+const checkAgainstTotal = async(req, res, next) => {
+    let exceedsTotal = false;
+    const { points } = req.body;
+    const total = await calculateTotal();
+    if (points > total) {
+        exceedsTotal = true;
+    }
+    req.body.exceedsTotal = exceedsTotal;
+    next();
+}
+
+const validateSpend = [
+    check('points')
+        .exists({ checkFalsy: true })
+        .withMessage('Please enter a point amount')
+        .if(check('points').exists({ checkFalsy: true }))
+        .custom(value => Number(value) > 0)
+        .withMessage('Point amount must be greater than 0.')
+        .isInt()
+        .withMessage('Point amount must be an integer.'),
+        check('exceedsTotal').custom((value) => {
+            if (value === true) {
+                throw new Error('Point amount cannot exceed total points.');
+            } else {
+                return true;
+            }
+        }),
+    handleValidationErrors
+];
+
+router.put('/', checkAgainstTotal, validateSpend, asyncHandler(async(req, res) => {
     let { points } = req.body;
 
     const transactions = await Transaction.findAll({
