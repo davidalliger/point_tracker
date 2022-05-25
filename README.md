@@ -1,7 +1,7 @@
 # Point Tracker
 ## Instructions
 ### Production
-To run this application in production, you can visit the deployed version <a href="https://point-tracker-app.herokuapp.com" target="_blank">here</a>.
+To run this application in production, you can visit the deployed version [here](https://point-tracker-app.herokuapp.com).
 To add a transaction, click on the 'Transactions' button, scroll to the bottom of the screen, and click 'Add Transaction.'
 ### Development
 To run this app on your local machine, please follow the instructions below:
