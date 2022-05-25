@@ -23,4 +23,4 @@ The trickiest challenge I encountered while building this app was creating the l
 ![points-7](https://user-images.githubusercontent.com/88861592/170304328-2971c65e-9d9b-4884-a0be-e7a57ce3e973.PNG)
 ![points-8](https://user-images.githubusercontent.com/88861592/170304405-35ca9066-fbde-4a40-bdec-f4e9a71adc5d.PNG)
 ## Possible future features
-In the future, I might add the ability to delete a transaction, or undo the last spend of points.
+In the future, I might add the ability to delete a transaction, or undo the last call to the spend points route.
