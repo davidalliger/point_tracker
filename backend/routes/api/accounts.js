@@ -152,7 +152,7 @@ router.put('/', asyncHandler(async(req, res) => {
         currentRound++
     }
 
-    return res.json({response: response});
+    return res.json(response);
 }));
 
 module.exports = router;
