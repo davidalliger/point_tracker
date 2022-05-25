@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { createTransaction } from "../../../store/transactions";
 import { useDispatch } from "react-redux";
 import { useHistory, Link } from 'react-router-dom';
-import { getBalances, getTotal } from "../../../store/balances";
 
 const CreateTransaction = () => {
     const [payer, setPayer] = useState('');

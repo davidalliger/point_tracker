@@ -57,24 +57,6 @@ export const getTotal = () => async(dispatch) => {
     }
 }
 
-// export const createBalance = (payload) => async(dispatch) => {
-//     const response = await fetch('/api/accounts', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(payload)
-//     });
-//     if (response.ok) {
-//         const balance = await response.json();
-//         dispatch(addBalance(balance));
-//         return balance;
-//     } else {
-//         const data = await handleResponse(response);
-//         return data;
-//     }
-// }
-
 export const updateBalances = (payload) => async(dispatch) => {
     const response = await fetch('/api/accounts', {
         method: 'PUT',
@@ -83,10 +65,8 @@ export const updateBalances = (payload) => async(dispatch) => {
         },
         body: JSON.stringify(payload)
     });
-    // console.log('In thunk ', response);
     if (response.ok) {
         const balances = await response.json();
-        console.log('In thunk ', balances);
         dispatch(changeBalances(balances));
         return balances;
     } else {
@@ -99,15 +79,7 @@ const balancesReducer = (state={}, action) => {
     let newState = { ...state };
     switch(action.type) {
         case LOAD:
-            // if (!newState['totalPoints']) newState['totalPoints'] = 0;
             newState['balances'] = action.payload;
-            // Object.keys(action.payload).forEach(payer => {
-            //     newState['totalPoints'] += action.payload[payer];
-            // });
-            // action.payload.accounts.forEach(account => {
-            //     newState.balances[account.payer] = account.points;
-            //     newState['totalPoints'] += account.points;
-            // });
             return newState;
         case TOTAL:
             newState['totalPoints'] = action.payload;

@@ -15,13 +15,11 @@ const SpendPoints = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        console.log(points);
         const data = await dispatch(updateBalances({points}));
         await dispatch(getTotal());
         if (data.errors) {
             setErrors(data.errors);
         } else {
-            console.log(data);
             setUpdates(data);
         }
     }
@@ -40,7 +38,6 @@ const SpendPoints = () => {
 
 
     if (updated) {
-        console.log(updates);
         return <Redirect to={{pathname: '/balances/updated', state:{updates: updates}}} />
     }
 
