@@ -2,7 +2,8 @@ import { handleResponse } from "../utils";
 
 const LOAD = 'balances/LOAD';
 const TOTAL = 'balances/TOTAL';
-const CHANGE = 'balances/CHANGE'
+const CHANGE = 'balances/CHANGE';
+const TRANSACTION = 'balances/TRANSACTION';
 
 const loadBalances = payload => {
     return {
@@ -22,6 +23,13 @@ const changeBalances = balances => {
     return {
         type: CHANGE,
         balances
+    }
+}
+
+export const transactionBalances = transaction => {
+    return {
+        type: TRANSACTION,
+        transaction
     }
 }
 
@@ -75,11 +83,11 @@ export const updateBalances = (payload) => async(dispatch) => {
         },
         body: JSON.stringify(payload)
     });
-    console.log('In thunk ', response);
+    // console.log('In thunk ', response);
     if (response.ok) {
         const balances = await response.json();
         console.log('In thunk ', balances);
-        // dispatch(changeBalances(balances));
+        dispatch(changeBalances(balances));
         return balances;
     } else {
         const data = await handleResponse(response);
@@ -104,11 +112,24 @@ const balancesReducer = (state={}, action) => {
         case TOTAL:
             newState['totalPoints'] = action.payload;
             return newState;
-        // case CHANGE:
-        //     action.balances.forEach(account => {
-        //         newState.balances[account.payer] += account.points;
-        //     });
-        //     return newState;
+        case CHANGE:
+            action.balances.forEach(account => {
+                newState.balances[account.payer] += account.points;
+            });
+            return newState;
+        case TRANSACTION:
+            if (newState['balances']) {
+                if (newState['balances'][action.transaction.payer]) {
+                    newState['balances'][action.transaction.payer] += action.transaction.points;
+                } else {
+                    newState['balances'][action.transaction.payer] = action.transaction.points;
+                }
+            } else {
+                newState['balances'] = {};
+                newState['balances'][action.transaction.payer] = action.transaction.points;
+            }
+            newState['totalPoints'] += action.transaction.points;
+            return newState;
         default:
             return newState;
     }

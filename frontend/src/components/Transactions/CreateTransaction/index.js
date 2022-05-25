@@ -24,8 +24,6 @@ const CreateTransaction = () => {
         if (data.errors) {
             setErrors(data.errors);
         } else {
-            await dispatch(getTotal())
-            await dispatch(getBalances());
             history.push('/transactions');
         }
     }

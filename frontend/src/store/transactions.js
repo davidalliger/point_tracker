@@ -1,4 +1,5 @@
 import { handleResponse } from "../utils";
+import { transactionBalances } from "./balances";
 
 const LOAD = 'transactions/LOAD';
 const ADD = 'transactions/ADD';
@@ -39,6 +40,7 @@ export const createTransaction = (payload) => async(dispatch) => {
     if (response.ok) {
         const transaction = await response.json();
         dispatch(addTransaction(transaction));
+        dispatch(transactionBalances(transaction));
         return transaction;
     } else {
         const data = await handleResponse(response);
