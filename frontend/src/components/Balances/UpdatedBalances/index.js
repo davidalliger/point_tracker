@@ -11,9 +11,9 @@ const UpdatedBalances = () => {
     }
 
     return (
-        <div>
+        <div className='page'>
             <h2>Points Spent</h2>
-            <div>
+            <div className='content'>
                 <pre>
                     {JSON.stringify(updates, null, 4)}
                 </pre>

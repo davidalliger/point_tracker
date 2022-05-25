@@ -36,50 +36,58 @@ router.put('/', asyncHandler(async(req, res) => {
         order: [['timestamp','ASC']]
     });
 
-    let round = 1;
     let count = 1;
     const rounds = {};
     const order = {};
     while (count <= transactions.length) {
-        console.log('current transaction ', transactions[count - 1]);
+        let round = 1;
+        console.log('order is ', order)
+        console.log('rounds is ', rounds)
+        console.log('round is ', round)
+        console.log('count is ', count)
+        console.log('current transaction is ', transactions[count - 1].Account.payer, transactions[count - 1].points);
         if (transactions[count - 1].points < 0) {
             if (order[transactions[count - 1].Account.payer]) {
-                let deductPoints = transactions[count - 1].points;
-                    for (let i = 1; i <= round; i++) {
-                        if (Math.abs(deductPoints) >= Math.abs(rounds[i][order[transactions[count - 1].Account.payer]])) {
-                            deductPoints += Number(rounds[i][order[transactions[count - 1].Account.payer]]);
-                            rounds[i][order[transactions[count - 1].Account.payer]] = 0;
+                let deductPoints = Number(transactions[count - 1].points);
+                    for (let i = 1; i <= order[transactions[count - 1].Account.payer].length; i++) {
+                        if (Math.abs(deductPoints) >= Math.abs(rounds[i][order[transactions[count - 1].Account.payer][i - 1]])) {
+                            deductPoints += Number(rounds[i][order[transactions[count - 1].Account.payer][i - 1]]);
+                            rounds[i][order[transactions[count - 1].Account.payer][i - 1]] = 0;
                         } else {
-                            rounds[i][order[transactions[count - 1].Account.payer]] = Number(rounds[round][order[transactions[count - 1].Account.payer]]) + Number(deductPoints);
+                            rounds[i][order[transactions[count - 1].Account.payer][i - 1]] = Number(rounds[i][order[transactions[count - 1].Account.payer][i - 1]]) + Number(deductPoints);
                             deductPoints = 0;
                         }
                     }
             }
         } else {
             if (order[transactions[count - 1].Account.payer]) {
-                round++;
-                order[transactions[count - 1].Account.payer] = count;
-                rounds[round] = {};
-                rounds[round][count] = Number(transactions[count - 1].points);
-            } else {
-                order[transactions[count - 1].Account.payer] = count;
+                order[transactions[count - 1].Account.payer].push(count);
+                round = order[transactions[count - 1].Account.payer].length;
                 if (rounds[round]) {
-                    rounds[round][count] = transactions[count - 1].points;
+                    rounds[round][count] = Number(transactions[count - 1].points);
                 } else {
                     rounds[round] = {};
-                    rounds[round][count] = transactions[count - 1].points;
+                    rounds[round][count] = Number(transactions[count - 1].points);
+                }
+            } else {
+                order[transactions[count - 1].Account.payer] = [count];
+                if (rounds[round]) {
+                    rounds[round][count] = Number(transactions[count - 1].points);
+                } else {
+                    rounds[round] = {};
+                    rounds[round][count] = Number(transactions[count - 1].points);
                 }
             }
         }
-        count++;
+        count++; // move this line up?
     }
     console.log(rounds);
     console.log(order);
     let currentRound = 1;
-    let currentCount = 1;
     const response = [];
     const roundCount = Object.keys(rounds);
     while (currentRound <= roundCount.length) {
+        let currentCount = 1;
         while (currentCount <= transactions.length) {
             if (rounds[currentRound][currentCount]) {
                 if (rounds[currentRound][currentCount] >= points) {

@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { createTransaction } from "../../../store/transactions";
 import { useDispatch } from "react-redux";
 import { useHistory, Link } from 'react-router-dom';
-import { getBalances } from "../../../store/balances";
+import { getBalances, getTotal } from "../../../store/balances";
 
 const CreateTransaction = () => {
     const [payer, setPayer] = useState('');
-    const [points, setPoints] = useState(null);
-    const [timestamp, setTimestamp] = useState(null);
+    const [points, setPoints] = useState('');
+    const [timestamp, setTimestamp] = useState('');
     const [errors, setErrors] = useState([]);
     const [showErrors, setShowErrors] = useState(false);
     const dispatch = useDispatch();
@@ -24,6 +24,7 @@ const CreateTransaction = () => {
         if (data.errors) {
             setErrors(data.errors);
         } else {
+            await dispatch(getTotal())
             await dispatch(getBalances());
             history.push('/transactions');
         }

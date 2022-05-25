@@ -79,7 +79,7 @@ export const updateBalances = (payload) => async(dispatch) => {
     if (response.ok) {
         const balances = await response.json();
         console.log('In thunk ', balances);
-        dispatch(changeBalances(balances));
+        // dispatch(changeBalances(balances));
         return balances;
     } else {
         const data = await handleResponse(response);
@@ -104,12 +104,11 @@ const balancesReducer = (state={}, action) => {
         case TOTAL:
             newState['totalPoints'] = action.payload;
             return newState;
-        case CHANGE:
-            action.balances.forEach(account => {
-                newState.balances[account.payer] += account.points;
-                newState['totalPoints'] += account.points;
-            });
-            return newState;
+        // case CHANGE:
+        //     action.balances.forEach(account => {
+        //         newState.balances[account.payer] += account.points;
+        //     });
+        //     return newState;
         default:
             return newState;
     }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateBalances } from "../../store/balances";
+import { getTotal, updateBalances } from "../../store/balances";
 import { Redirect, Link } from 'react-router-dom';
 
 const SpendPoints = () => {
@@ -17,6 +17,7 @@ const SpendPoints = () => {
         e.preventDefault();
         console.log(points);
         const data = await dispatch(updateBalances({points}));
+        await dispatch(getTotal());
         if (data.errors) {
             setErrors(data.errors);
         } else {

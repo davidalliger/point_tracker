@@ -4,14 +4,20 @@ import { Link } from 'react-router-dom';
 const ReadTransactions = () => {
     const transactions = useSelector(state => state.transactions.transactions);
 
-    console.log('transactions ', transactions);
-
     return (
         <div className='page'>
             <h2>Transactions</h2>
             <div className='content'>
                 <pre>
-                    {JSON.stringify(transactions, null, 2)}
+                    {transactions?.length ? (
+                        <div>
+                            {JSON.stringify(transactions, null, 2)}
+                        </div>
+                    ) : (
+                        <div>
+                            No transactions yet.
+                        </div>
+                    )}
                 </pre>
             </div>
             <Link to='/transactions/new'>
