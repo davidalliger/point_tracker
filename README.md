@@ -7,7 +7,7 @@ To add a transaction, click on the 'Transactions' button, scroll to the bottom o
 To run this app on your local machine, please follow the instructions below:
 1. Clone this repository by running the following command:
 ```
-git clone git@github.com:davidalliger/scarebnb.git
+git clone git@github.com:davidalliger/point_tracker.git
 ```
 2. Navigate into the backend directory and install dependencies.
 ```
@@ -19,7 +19,7 @@ npm install
 ```
 4. In psql, create a POSTGRESQL user with PASSWORD and CREATEDB privileges.
 ```
-CREATE USER <username> WITH PASSWORD '<password>'
+CREATE USER <username> WITH PASSWORD '<password>' CREATEDB
 ```
 5. Using the .envexample file in the backend folder as a guide, create a .env file in the same folder.
 6. For the DB_USERNAME and DB_PASSWORD fields, use the username and password that were just created in psql.
