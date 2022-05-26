@@ -19,7 +19,7 @@ npm install
 ```
 4. In psql, create a POSTGRESQL user with PASSWORD and CREATEDB privileges.
 ```
-CREATE USER <username> WITH PASSWORD '<password>' CREATEDB
+CREATE USER <username> WITH PASSWORD '<password>' CREATEDB;
 ```
 5. Using the .envexample file in the backend folder as a guide, create a .env file in the same folder.
 6. For the DB_USERNAME and DB_PASSWORD fields, use the username and password that were just created in psql.
